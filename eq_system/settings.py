@@ -11,10 +11,16 @@ DEBUG = False
 
 import os
 
-ALLOWED_HOSTS = os.environ.get(
-    "ALLOWED_HOSTS",
-    "localhost,127.0.0.1"
-).split(",")
+ALLOWED_HOSTS = [
+    "advanced-emotional-intelligence-eq.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://advanced-emotional-intelligence-eq.onrender.com",
+]
+
 
 
 
