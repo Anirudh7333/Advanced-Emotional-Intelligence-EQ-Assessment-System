@@ -1,0 +1,25 @@
+QUICK SETUP INSTRUCTIONS
+========================
+
+1. Install Python 3.8 or higher
+
+2. Create and activate a virtual environment:
+   python -m venv venv
+   venv\Scripts\activate  (Windows)
+   source venv/bin/activate  (Mac/Linux)
+
+3. Install dependencies:
+   pip install -r requirements.txt
+
+4. Run migrations:
+   python manage.py migrate
+
+5. Start the server:
+   python manage.py runserver
+
+6. Open browser to: http://127.0.0.1:8000/
+
+NOTE: First request will be slow as HuggingFace models download (~1-2 GB).
+This only happens once - models are cached locally after download.
+
+

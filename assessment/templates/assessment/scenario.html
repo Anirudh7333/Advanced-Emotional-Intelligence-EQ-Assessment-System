@@ -1,0 +1,52 @@
+{% extends "assessment/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Assessment Scenario</h2>
+    
+    <div class="scenario-box">
+        <h3>Scenario:</h3>
+        <p class="scenario-text">{{ scenario }}</p>
+    </div>
+
+    <div class="questions-section">
+        <h3>Please provide thoughtful responses to the following questions:</h3>
+        <p class="instruction-text">
+            Each response should be at least 10 words. Take your time to reflect on 
+            each question and provide detailed, honest answers.
+        </p>
+
+        {% if error_message %}
+            <div class="error-message">
+                <strong>Error:</strong> {{ error_message }}
+            </div>
+        {% endif %}
+
+        <form method="post" class="response-form">
+            {% csrf_token %}
+            
+            {% for question in questions %}
+                <div class="question-block">
+                    <label class="question-label">
+                        <strong>Question {{ forloop.counter }}:</strong><br>
+                        {{ question }}
+                    </label>
+                    <textarea 
+                        name="answer_{{ forloop.counter0 }}" 
+                        rows="5" 
+                        class="response-textarea"
+                        placeholder="Type your response here..."
+                        required></textarea>
+                </div>
+            {% endfor %}
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Submit Assessment</button>
+                <a href="{% url 'assessment:landing' %}" class="btn btn-secondary">Start Over</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+

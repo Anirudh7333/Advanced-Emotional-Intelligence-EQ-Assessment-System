@@ -1,0 +1,49 @@
+{% extends "assessment/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Welcome to Your EQ Assessment</h2>
+    <p class="intro-text">
+        This assessment will help you understand your emotional intelligence through 
+        a series of challenging scenarios and reflective questions. Your responses will 
+        be analyzed using advanced AI to provide insights into various aspects of your 
+        emotional intelligence.
+    </p>
+    <p class="intro-text">
+        The assessment takes approximately 10-15 minutes to complete. Please provide 
+        thoughtful, detailed responses to get the most accurate results.
+    </p>
+
+    <form method="post" class="demographic-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.age.id_for_label }}">{{ form.age.label }}</label>
+            {{ form.age }}
+            {% if form.age.errors %}
+                <div class="error">{{ form.age.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.gender.id_for_label }}">{{ form.gender.label }}</label>
+            {{ form.gender }}
+            {% if form.gender.errors %}
+                <div class="error">{{ form.gender.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.profession.id_for_label }}">{{ form.profession.label }}</label>
+            {{ form.profession }}
+            {% if form.profession.errors %}
+                <div class="error">{{ form.profession.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Start Assessment</button>
+    </form>
+</div>
+{% endblock %}
+
+

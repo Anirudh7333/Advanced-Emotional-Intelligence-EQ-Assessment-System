@@ -1,0 +1,147 @@
+{% extends "assessment/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Your EQ Assessment Results</h2>
+    
+    <div class="demographics-summary">
+        <h3>Demographics</h3>
+        <p><strong>Age:</strong> {{ demographics.age }}</p>
+        <p><strong>Gender:</strong> {{ gender_display }}</p>
+        <p><strong>Profession:</strong> {{ demographics.profession }}</p>
+    </div>
+
+    <div class="overall-score-section">
+        <h3>Overall EQ Score</h3>
+        <div class="overall-score-box">
+            <div class="score-value">{{ overall_score|floatformat:1 }} / 100</div>
+            <div class="eq-level-badge {% if eq_level == 'Low EQ' %}loweq{% elif eq_level == 'Average EQ' %}averageeq{% elif eq_level == 'High EQ' %}higheq{% endif %}">
+                {{ eq_level }}
+            </div>
+        </div>
+    </div>
+
+    <div class="category-scores-section">
+        <h3>Category Breakdown</h3>
+        <div class="category-list">
+            {% for category, score in category_scores.items %}
+                <div class="category-item">
+                    <div class="category-header">
+                        <span class="category-name">
+                            {% if category == "self_awareness" %}Self-Awareness
+                            {% elif category == "emotional_resilience" %}Emotional Resilience
+                            {% elif category == "conflict_resolution" %}Conflict Resolution
+                            {% elif category == "cultural_awareness" %}Cultural Awareness
+                            {% elif category == "empathy" %}Empathy
+                            {% elif category == "stress_management" %}Stress Management
+                            {% else %}{{ category|title }}
+                            {% endif %}
+                        </span>
+                        <span class="category-score">{{ score|floatformat:1 }}</span>
+                    </div>
+                    <div class="score-bar-container">
+                        <div class="score-bar" style="width: {{ score }}%"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="sentiment-section">
+        <h3>Sentiment Analysis</h3>
+        <div class="sentiment-breakdown">
+            <div class="sentiment-item">
+                <span class="sentiment-label">Positive:</span>
+                <span class="sentiment-value">{{ sentiment_percent.POSITIVE|floatformat:1 }}%</span>
+            </div>
+            <div class="sentiment-item">
+                <span class="sentiment-label">Neutral:</span>
+                <span class="sentiment-value">{{ sentiment_percent.NEUTRAL|floatformat:1 }}%</span>
+            </div>
+            <div class="sentiment-item">
+                <span class="sentiment-label">Negative:</span>
+                <span class="sentiment-value">{{ sentiment_percent.NEGATIVE|floatformat:1 }}%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="emotion-section">
+        <h3>Emotion Analysis</h3>
+        {% if emotion_percent %}
+            <div class="emotion-list">
+                {% for emotion, percentage in emotion_percent.items %}
+                    <div class="emotion-item">
+                        <span class="emotion-label">{{ emotion|title }}:</span>
+                        <span class="emotion-value">{{ percentage|floatformat:1 }}%</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-data">No emotion data available.</p>
+        {% endif %}
+    </div>
+
+    <div class="interpretation-section">
+        <h3>Interpretation & Development Suggestions</h3>
+        <div class="interpretation-box">
+            {% if eq_level == "Low EQ" %}
+                <p class="interpretation-text">
+                    Your assessment indicates areas for growth in emotional intelligence. 
+                    This is a great opportunity for personal development.
+                </p>
+                <ul class="suggestions-list">
+                    <li><strong>Emotional Awareness:</strong> Practice identifying and naming your emotions throughout the day. 
+                        Keep an emotion journal to track patterns.</li>
+                    <li><strong>Stress Management:</strong> Develop coping strategies such as deep breathing, 
+                        meditation, or physical exercise to manage stress more effectively.</li>
+                    <li><strong>Reflection:</strong> Spend time reflecting on your emotional reactions and their triggers. 
+                        Consider what you can learn from challenging situations.</li>
+                    <li><strong>Seek Feedback:</strong> Ask trusted friends, family, or colleagues for honest feedback 
+                        about your emotional responses in various situations.</li>
+                    <li><strong>Professional Support:</strong> Consider working with a coach or therapist to develop 
+                        stronger emotional intelligence skills.</li>
+                </ul>
+            {% elif eq_level == "Average EQ" %}
+                <p class="interpretation-text">
+                    Your emotional intelligence is at an average level. You have a solid foundation 
+                    and can continue to strengthen your skills.
+                </p>
+                <ul class="suggestions-list">
+                    <li><strong>Consistency:</strong> Focus on maintaining emotional awareness and regulation 
+                        consistently, especially under pressure or in stressful situations.</li>
+                    <li><strong>Skill Consolidation:</strong> Practice the emotional intelligence skills you already 
+                        have to make them more automatic and reliable.</li>
+                    <li><strong>Advanced Techniques:</strong> Explore more sophisticated strategies for conflict 
+                        resolution and emotional regulation.</li>
+                    <li><strong>Empathy Development:</strong> Work on actively listening and trying to understand 
+                        others' perspectives, even when they differ from your own.</li>
+                    <li><strong>Real-world Application:</strong> Apply your EQ skills in diverse situations 
+                        to build confidence and adaptability.</li>
+                </ul>
+            {% else %}
+                <p class="interpretation-text">
+                    Your assessment indicates strong emotional intelligence. You demonstrate advanced 
+                    skills in understanding and managing emotions.
+                </p>
+                <ul class="suggestions-list">
+                    <li><strong>Maintain Excellence:</strong> Continue practicing and refining your emotional 
+                        intelligence skills to maintain your high level of performance.</li>
+                    <li><strong>Mentoring:</strong> Consider mentoring others in emotional intelligence development. 
+                        Teaching can deepen your own understanding.</li>
+                    <li><strong>Seek Feedback:</strong> Even with high EQ, continue seeking feedback to identify 
+                        any blind spots or areas for further growth.</li>
+                    <li><strong>Leadership:</strong> Use your emotional intelligence skills to lead and influence 
+                        others positively in your personal and professional life.</li>
+                    <li><strong>Continuous Learning:</strong> Stay current with research and best practices in 
+                        emotional intelligence and emotional regulation.</li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="actions-section">
+        <a href="{% url 'assessment:landing' %}" class="btn btn-primary">Take Assessment Again</a>
+    </div>
+</div>
+{% endblock %}
+
